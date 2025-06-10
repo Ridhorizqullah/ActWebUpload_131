@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Unggah File</title>
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-hover: #3a56d4;
+      --background: #f8fafc;
+      --card: #ffffff;
+      --text: #1e293b;
+      --text-light: #64748b;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--background);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      color: var(--text);
+      line-height: 1.5;
+    }
+    
+    .container {
+      background-color: var(--card);
+      border-radius: 16px;
+      padding: 2.5rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+      transition: transform 0.2s ease;
+    }
+    
+    .container:hover {
+      transform: translateY(-2px);
+    }
+    
+    h2 {
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+      font-size: 1.75rem;
+    }
+    
+    .file-upload-wrapper {
+      position: relative;
+      margin: 1.5rem 0;
+    }
+    
+    .file-upload-label {
+      display: block;
+      padding: 1.5rem;
+      border: 2px dashed #e2e8f0;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .file-upload-label:hover {
+      border-color: var(--primary);
+      background-color: rgba(67, 97, 238, 0.05);
+    }
+    
+    .file-upload-label svg {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 0.75rem;
+      color: var(--primary);
+    }
+    
+    .file-upload-label p {
+      margin: 0;
+      font-size: 1rem;
+      color: var(--text-light);
+    }
+    
+    .file-upload-label strong {
+      color: var(--primary);
+      font-weight: 600;
+    }
+    
+    input[type="file"] {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+    
+    .preview {
+      margin: 1.5rem 0;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+    
+    img, iframe {
+      display: block;
+      width: 100%;
+      max-height: 300px;
+      object-fit: contain;
+    }
+    
+    button {
+      background-color: var(--primary);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1rem;
+      width: 100%;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(67, 97, 238, 0.2);
+    }
+    
+    button:hover {
+      background-color: var(--primary-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+    }
+    
+    .link-list {
+      margin-top: 1.5rem;
+    }
+    
+    .link-list a {
+      display: inline-flex;
+      align-items: center;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+    
+    .link-list a:hover {
+      color: var(--primary-hover);
+      text-decoration: underline;
+    }
+    
+    .link-list a svg {
+      margin-right: 8px;
+    }
+    
+    .file-info {
+      margin-top: 1rem;
+      font-size: 0.875rem;
+      color: var(--text-light);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Unggah File</h2>
+    <form action="upload.php" method="post" enctype="multipart/form-data">
+      <div class="file-upload-wrapper">
+        <label for="fileToUpload" class="file-upload-label">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+          </svg>
+          <p><strong>Klik untuk memilih file</strong> atau tarik dan lepas</p>
+          <p class="file-info">Format yang didukung: Gambar, PDF</p>
+        </label>
+        <input type="file" name="fileToUpload" id="fileToUpload" onchange="previewFile()" required>
+      </div>
+      <div class="preview" id="filePreview"></div>
+      <button type="submit">Unggah File</button>
+    </form>
+    <div class="link-list">
+      <a href="list_fileupload.php">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z"/>
+        </svg>
+        Lihat Daftar File
+      </a>
+    </div>
+  </div>
+
+  <script>
+    function previewFile() {
+      const file = document.getElementById('fileToUpload').files[0];
+      const preview = document.getElementById('filePreview');
+      const fileInfo = document.querySelector('.file-info');
+      preview.innerHTML = '';
+
+      if (!file) return;
+
+      // Update file info
+      fileInfo.textContent = `${file.name} (${formatFileSize(file.size)})`;
+
+      if (file.type.startsWith('image/')) {
+        const img = document.createElement('img');
+        img.src = URL.createObjectURL(file);
+        preview.appendChild(img);
+      } else if (file.type === 'application/pdf') {
+        const iframe = document.createElement('iframe');
+        iframe.src = URL.createObjectURL(file);
+        iframe.height = "300";
+        preview.appendChild(iframe);
+      } else {
+        preview.textContent = "Preview tidak tersedia untuk format file ini.";
+      }
+    }
+    
+    function formatFileSize(bytes) {
+      if (bytes === 0) return '0 Bytes';
+      const k = 1024;
+      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+  </script>
+</body>
+</html>
